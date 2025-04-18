@@ -24,7 +24,7 @@ import StockTable from '../components/StockTable';
 import StockChart from '../components/StockChart';
 import Watchlist from '../components/Watchlist';
 
-import { FilterState, SortState, SortField, Stock } from '../types/stock';
+import { FilterState, SortState, SortField, Stock, StockWithHistory } from '../types/stock';
 import { mockStocks, detailedStock } from '../data/mockStocks';
 import { filterStocks, sortStocks } from '../utils/stockUtils';
 
@@ -50,7 +50,7 @@ const Index = () => {
     direction: 'asc'
   });
   const [stocks, setStocks] = useState<Stock[]>(mockStocks);
-  const [selectedStock, setSelectedStock] = useState<Stock | null>(null);
+  const [selectedStock, setSelectedStock] = useState<StockWithHistory | null>(null);
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
 
   // Apply filters and sorting
@@ -109,15 +109,29 @@ const Index = () => {
 
   // Stock details view
   const viewStockDetails = (stockId: string) => {
-    const stock = stocks.find(s => s.id === stockId) || null;
-    setSelectedStock(stock);
-    setDetailDialogOpen(true);
+    // Find the stock in our data and cast it to StockWithHistory by merging with detailedStock
+    const stock = stocks.find(s => s.id === stockId);
+    if (stock) {
+      // Create a StockWithHistory by adding history from detailedStock
+      const stockWithHistory: StockWithHistory = {
+        ...stock,
+        history: detailedStock.history
+      };
+      setSelectedStock(stockWithHistory);
+      setDetailDialogOpen(true);
+    }
   };
 
   // Apply filters and sorting
   const filteredStocks = filterStocks(stocks, filters);
   const sortedStocks = sortStocks(filteredStocks, sortState);
   const watchlistStocks = stocks.filter(stock => stock.inWatchlist);
+
+  // Create watchlist stocks with history for the chart
+  const watchlistStocksWithHistory: StockWithHistory[] = watchlistStocks.map(stock => ({
+    ...stock,
+    history: detailedStock.history
+  }));
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -178,7 +192,7 @@ const Index = () => {
                     </Select>
                   </div>
                   <StockChart 
-                    history={selectedStock?.history || watchlistStocks[0].history || detailedStock.history}
+                    history={selectedStock?.history || watchlistStocksWithHistory[0]?.history || detailedStock.history}
                     title="Historical Performance"
                     description="Historical trends of key metrics"
                   />
