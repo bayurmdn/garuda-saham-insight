@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { 
-  Filter, ChevronDown, ChevronUp, X, ChevronsUpDown, StarFilled, Percent
+  Filter, ChevronDown, ChevronUp, X, ChevronsUpDown, Star, Percent
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -220,7 +220,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                 onCheckedChange={(checked) => handleChange('onlyWatchlist', Boolean(checked))}
               />
               <Label htmlFor="onlyWatchlist" className="flex items-center">
-                <StarFilled className="h-3.5 w-3.5 mr-1 text-accent" />
+                <Star className="h-3.5 w-3.5 mr-1 text-accent fill-accent" />
                 Watchlist only
               </Label>
             </div>
