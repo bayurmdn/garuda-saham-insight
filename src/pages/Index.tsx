@@ -1,5 +1,6 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   Dialog,
   DialogContent,
@@ -29,7 +30,10 @@ import { mockStocks, detailedStock } from '../data/mockStocks';
 import { filterStocks, sortStocks } from '../utils/stockUtils';
 
 const Index = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const { toast } = useToast();
+  
   const [searchQuery, setSearchQuery] = useState('');
   const [filterPanelOpen, setFilterPanelOpen] = useState(true);
   const [selectedMetric, setSelectedMetric] = useState<'eps' | 'revenue' | 'roe' | 'debtToEquity'>('eps');
@@ -52,6 +56,16 @@ const Index = () => {
   const [stocks, setStocks] = useState<Stock[]>(mockStocks);
   const [selectedStock, setSelectedStock] = useState<StockWithHistory | null>(null);
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
+  
+  // Check URL params for direct stock view
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const stockId = params.get('stockId');
+    
+    if (stockId) {
+      viewStockDetails(stockId);
+    }
+  }, [location]);
 
   // Apply filters and sorting
   const handleSearchChange = (value: string) => {
@@ -119,7 +133,20 @@ const Index = () => {
       };
       setSelectedStock(stockWithHistory);
       setDetailDialogOpen(true);
+      
+      // Update URL without page reload
+      const currentParams = new URLSearchParams(location.search);
+      currentParams.set('stockId', stockId);
+      navigate(`?${currentParams.toString()}`, { replace: true });
     }
+  };
+
+  // Close dialog and update URL
+  const handleCloseDialog = () => {
+    setDetailDialogOpen(false);
+    const currentParams = new URLSearchParams(location.search);
+    currentParams.delete('stockId');
+    navigate(`?${currentParams.toString()}`, { replace: true });
   };
 
   // Apply filters and sorting
@@ -139,9 +166,9 @@ const Index = () => {
       
       <main className="flex-1 container max-w-7xl py-8">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-2">Garuda Saham Insight</h1>
+          <h1 className="text-3xl font-bold mb-2">Stock Screener</h1>
           <p className="text-muted-foreground">
-            Analyze IDX stocks with fundamental analysis to find quality companies at attractive prices.
+            Filter and analyze IDX stocks based on fundamental criteria
           </p>
         </div>
         
@@ -207,7 +234,7 @@ const Index = () => {
       
       {/* Stock Detail Dialog */}
       {selectedStock && (
-        <Dialog open={detailDialogOpen} onOpenChange={setDetailDialogOpen}>
+        <Dialog open={detailDialogOpen} onOpenChange={handleCloseDialog}>
           <DialogContent className="max-w-4xl">
             <DialogHeader>
               <DialogTitle>{selectedStock.ticker} - {selectedStock.name}</DialogTitle>
