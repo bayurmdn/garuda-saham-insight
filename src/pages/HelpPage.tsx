@@ -52,9 +52,9 @@ const HelpPage = () => {
                         <div className="text-sm">
                           <p className="font-medium">How to interpret:</p>
                           <ul className="list-disc list-inside space-y-1 pl-4 text-muted-foreground">
-                            <li>High P/E (>25): Could indicate an overvalued stock or high growth expectations</li>
+                            <li>High P/E ({'>'}25): Could indicate an overvalued stock or high growth expectations</li>
                             <li>Moderate P/E (15-25): Generally considered reasonable valuation</li>
-                            <li>Low P/E (<15): Might indicate an undervalued stock or issues with the company</li>
+                            <li>Low P/E ({'<'}15): Might indicate an undervalued stock or issues with the company</li>
                           </ul>
                         </div>
                         <p className="text-sm text-muted-foreground">
@@ -74,8 +74,8 @@ const HelpPage = () => {
                         <div className="text-sm">
                           <p className="font-medium">How to interpret:</p>
                           <ul className="list-disc list-inside space-y-1 pl-4 text-muted-foreground">
-                            <li>P/BV < 1: Stock could be undervalued (selling for less than the value of its assets)</li>
-                            <li>P/BV > 3: Often considered expensive (except for high-growth companies)</li>
+                            <li>P/BV {'<'} 1: Stock could be undervalued (selling for less than the value of its assets)</li>
+                            <li>P/BV {'>'} 3: Often considered expensive (except for high-growth companies)</li>
                             <li>Different industries have different typical P/BV ranges</li>
                           </ul>
                         </div>
@@ -93,8 +93,8 @@ const HelpPage = () => {
                         <div className="text-sm">
                           <p className="font-medium">How to interpret:</p>
                           <ul className="list-disc list-inside space-y-1 pl-4 text-muted-foreground">
-                            <li>ROE > 15%: Generally considered good</li>
-                            <li>ROE > 20%: Excellent (but verify it's sustainable)</li>
+                            <li>ROE {'>'} 15%: Generally considered good</li>
+                            <li>ROE {'>'} 20%: Excellent (but verify it's sustainable)</li>
                             <li>Consistent or improving ROE over time is a positive signal</li>
                             <li>Compare with industry averages (some industries naturally have higher ROE)</li>
                           </ul>
@@ -113,8 +113,8 @@ const HelpPage = () => {
                         <div className="text-sm">
                           <p className="font-medium">How to interpret:</p>
                           <ul className="list-disc list-inside space-y-1 pl-4 text-muted-foreground">
-                            <li>D/E < 1: Company has more equity than debt (generally safer)</li>
-                            <li>D/E > 2: Company has significant leverage (higher risk)</li>
+                            <li>D/E {'<'} 1: Company has more equity than debt (generally safer)</li>
+                            <li>D/E {'>'} 2: Company has significant leverage (higher risk)</li>
                             <li>Some industries (like banking or utilities) normally operate with higher D/E ratios</li>
                           </ul>
                         </div>
@@ -132,8 +132,8 @@ const HelpPage = () => {
                         <div className="text-sm">
                           <p className="font-medium">How to interpret:</p>
                           <ul className="list-disc list-inside space-y-1 pl-4 text-muted-foreground">
-                            <li>High yield (>4%): Might be attractive for income investors, but check if sustainable</li>
-                            <li>Low yield (<2%): Common for growth companies that reinvest profits</li>
+                            <li>High yield ({'>'}4%): Might be attractive for income investors, but check if sustainable</li>
+                            <li>Low yield ({'<'}2%): Common for growth companies that reinvest profits</li>
                             <li>Dividend consistency over time is often more important than a high yield</li>
                           </ul>
                         </div>
