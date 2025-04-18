@@ -9,6 +9,13 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import Header from '../components/Layout/Header';
 import Footer from '../components/Layout/Footer';
@@ -25,6 +32,7 @@ const Index = () => {
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterPanelOpen, setFilterPanelOpen] = useState(true);
+  const [selectedMetric, setSelectedMetric] = useState<'eps' | 'revenue' | 'roe' | 'debtToEquity'>('eps');
   const [filters, setFilters] = useState<FilterState>({
     search: '',
     sectors: [],
@@ -151,11 +159,30 @@ const Index = () => {
             
             {watchlistStocks.length > 0 && (
               <div className="mt-6">
-                <StockChart 
-                  history={detailedStock.history}
-                  title="Historical Performance"
-                  description="Historical trends of key metrics"
-                />
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-lg font-medium">Historical Performance</h3>
+                    <Select
+                      value={selectedMetric}
+                      onValueChange={(value) => setSelectedMetric(value as typeof selectedMetric)}
+                    >
+                      <SelectTrigger className="w-[140px]">
+                        <SelectValue placeholder="Select metric" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="eps">EPS</SelectItem>
+                        <SelectItem value="revenue">Revenue</SelectItem>
+                        <SelectItem value="roe">ROE</SelectItem>
+                        <SelectItem value="debtToEquity">Debt/Equity</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <StockChart 
+                    history={selectedStock?.history || watchlistStocks[0].history || detailedStock.history}
+                    title="Historical Performance"
+                    description="Historical trends of key metrics"
+                  />
+                </div>
               </div>
             )}
           </div>
@@ -184,11 +211,27 @@ const Index = () => {
               
               <TabsContent value="overview" className="space-y-4 pt-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <StockChart
-                    history={detailedStock.history}
-                    title="Financial History"
-                    description="Historical performance trends"
-                  />
+                  <div className="space-y-4">
+                    <Select
+                      value={selectedMetric}
+                      onValueChange={(value) => setSelectedMetric(value as typeof selectedMetric)}
+                    >
+                      <SelectTrigger className="w-[140px]">
+                        <SelectValue placeholder="Select metric" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="eps">EPS</SelectItem>
+                        <SelectItem value="revenue">Revenue</SelectItem>
+                        <SelectItem value="roe">ROE</SelectItem>
+                        <SelectItem value="debtToEquity">Debt/Equity</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <StockChart
+                      history={selectedStock.history}
+                      title="Financial History"
+                      description="Historical performance trends"
+                    />
+                  </div>
                   
                   <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
@@ -231,7 +274,7 @@ const Index = () => {
               
               <TabsContent value="fundamentals" className="pt-4">
                 <StockChart
-                  history={detailedStock.history}
+                  history={selectedStock.history}
                   title="Fundamental Analysis"
                   description="Key fundamental metrics over time"
                 />
@@ -239,7 +282,7 @@ const Index = () => {
               
               <TabsContent value="valuation" className="pt-4">
                 <StockChart
-                  history={detailedStock.history}
+                  history={selectedStock.history}
                   title="Valuation Analysis"
                   description="Historical valuation metrics"
                 />
