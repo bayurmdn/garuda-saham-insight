@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { Settings, SliderIcon, Database, PieChart, BarChart, Moon, Check } from "lucide-react";
+import { Settings, SlidersHorizontal, Database, PieChart, BarChart, Moon, Check } from "lucide-react";
 
 import Header from '../components/Layout/Header';
 import Footer from '../components/Layout/Footer';
@@ -77,7 +76,7 @@ const SettingsPage = () => {
             <Card className="card-glass">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <SliderIcon className="h-5 w-5" />
+                  <SlidersHorizontal className="h-5 w-5" />
                   Analysis Thresholds
                 </CardTitle>
                 <CardDescription>
