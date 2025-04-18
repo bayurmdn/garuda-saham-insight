@@ -33,7 +33,7 @@
     --input: 220 13% 91%;
     --ring: 221 83% 53%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 
   .dark {
@@ -74,6 +74,7 @@
 
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
   }
 }
 
@@ -92,5 +93,35 @@
 
   .indicator-danger {
     @apply bg-danger-light text-danger;
+  }
+  
+  .glass {
+    @apply bg-card/80 backdrop-blur-md border border-border/50 shadow-glass;
+  }
+  
+  .glass-hover {
+    @apply hover:shadow-glass-lg transition-all duration-300;
+  }
+
+  .card-glass {
+    @apply glass rounded-xl overflow-hidden hover:shadow-glass-lg transition-all duration-300;
+  }
+  
+  .input-glass {
+    @apply bg-background/50 backdrop-blur-sm border-border/50;
+  }
+  
+  .button-glass {
+    @apply hover:bg-background/80 transition-all duration-300;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animate-in-slow {
+    animation-duration: 500ms;
   }
 }
