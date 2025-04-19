@@ -1,6 +1,6 @@
 import React from 'react';
 import { 
-  ArrowUp, ArrowDown, Eye, TrendingUp, TrendingDown
+  ArrowUp, ArrowDown, Eye, TrendingUp, TrendingDown, Download
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {

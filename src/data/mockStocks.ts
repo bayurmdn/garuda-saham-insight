@@ -1,4 +1,3 @@
-
 import { Stock, StockWithHistory } from "../types/stock";
 
 export const mockStocks: Stock[] = [
@@ -20,8 +19,7 @@ export const mockStocks: Stock[] = [
     roa: 3.1,
     debtToEquity: 5.2,
     dividendYield: 1.8,
-    fairValue: 9500,
-    inWatchlist: true
+    fairValue: 9500
   },
   {
     id: "2",
@@ -41,8 +39,7 @@ export const mockStocks: Stock[] = [
     roa: 7.2,
     debtToEquity: 0.9,
     dividendYield: 4.2,
-    fairValue: 3900,
-    inWatchlist: false
+    fairValue: 3900
   },
   {
     id: "3",
@@ -62,8 +59,7 @@ export const mockStocks: Stock[] = [
     roa: 35.6,
     debtToEquity: 2.1,
     dividendYield: 3.5,
-    fairValue: 4100,
-    inWatchlist: false
+    fairValue: 4100
   },
   {
     id: "4",
@@ -83,8 +79,7 @@ export const mockStocks: Stock[] = [
     roa: 5.1,
     debtToEquity: 0.8,
     dividendYield: 2.9,
-    fairValue: 5800,
-    inWatchlist: true
+    fairValue: 5800
   },
   {
     id: "5",
@@ -104,8 +99,7 @@ export const mockStocks: Stock[] = [
     roa: 8.9,
     debtToEquity: 0.4,
     dividendYield: 1.5,
-    fairValue: 2500,
-    inWatchlist: true
+    fairValue: 2500
   },
   {
     id: "6",
@@ -125,8 +119,7 @@ export const mockStocks: Stock[] = [
     roa: 5.0,
     debtToEquity: 0.9,
     dividendYield: 3.2,
-    fairValue: 7200,
-    inWatchlist: false
+    fairValue: 7200
   },
   {
     id: "7",
@@ -146,8 +139,7 @@ export const mockStocks: Stock[] = [
     roa: 3.2,
     debtToEquity: 1.1,
     dividendYield: 2.5,
-    fairValue: 1850,
-    inWatchlist: false
+    fairValue: 1850
   },
   {
     id: "8",
@@ -167,8 +159,7 @@ export const mockStocks: Stock[] = [
     roa: 3.8,
     debtToEquity: 1.3,
     dividendYield: 2.1,
-    fairValue: 8500,
-    inWatchlist: true
+    fairValue: 8500
   },
   {
     id: "9",
@@ -188,8 +179,7 @@ export const mockStocks: Stock[] = [
     roa: 12.6,
     debtToEquity: 0.2,
     dividendYield: 1.7,
-    fairValue: 1750,
-    inWatchlist: false
+    fairValue: 1750
   },
   {
     id: "10",
@@ -209,8 +199,7 @@ export const mockStocks: Stock[] = [
     roa: 2.1,
     debtToEquity: 5.6,
     dividendYield: 3.8,
-    fairValue: 6500,
-    inWatchlist: true
+    fairValue: 6500
   }
 ];
 
