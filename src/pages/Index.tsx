@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useToast } from "@/components/ui/use-toast";
@@ -27,7 +26,6 @@ const Index = () => {
     maxPe: null,
     maxPbv: null,
     minDividendYield: null,
-    onlyWatchlist: false,
     onlyUndervalued: false
   });
   const [sortState, setSortState] = useState<SortState>({
@@ -68,7 +66,6 @@ const Index = () => {
       maxPe: null,
       maxPbv: null,
       minDividendYield: null,
-      onlyWatchlist: false,
       onlyUndervalued: false
     });
   };

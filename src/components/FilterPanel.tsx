@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
 import { 
-  Filter, ChevronDown, ChevronUp, X, ChevronsUpDown, Star, Percent,
-  Building2, BarChart3, Check
+  Filter, ChevronDown, ChevronUp, X, ChevronsUpDown,
+  Building2, BarChart3, Percent
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,13 +12,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Command,
   CommandEmpty,
@@ -319,20 +311,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
             </AccordionItem>
           </Accordion>
           
-          <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <div className="flex items-center space-x-2">
-              <Checkbox 
-                id="onlyWatchlist" 
-                checked={filters.onlyWatchlist}
-                onCheckedChange={(checked) => handleChange('onlyWatchlist', Boolean(checked))}
-                className="data-[state=checked]:bg-accent data-[state=checked]:border-accent"
-              />
-              <Label htmlFor="onlyWatchlist" className="flex items-center">
-                <Star className="h-3.5 w-3.5 mr-1 text-accent fill-accent" />
-                Watchlist only
-              </Label>
-            </div>
-            
+          <div className="mt-4">
             <div className="flex items-center space-x-2">
               <Checkbox 
                 id="onlyUndervalued" 
