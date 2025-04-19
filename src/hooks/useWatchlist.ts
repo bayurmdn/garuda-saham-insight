@@ -24,8 +24,12 @@ export const useWatchlist = (userId: string | undefined) => {
       // Properly type the return value to match Stock[]
       if (!data) return [] as Stock[];
       
-      // Each item in data has a nested 'stocks' object that we need to extract
-      return data.map(item => item.stocks) as Stock[];
+      // Each item in data has a nested 'stocks' object that contains a single stock
+      // We need to extract these stock objects from the nested structure
+      const stocks = data.map(item => item.stocks) as Stock[];
+      
+      // Return the stocks array
+      return stocks;
     },
     enabled: !!userId,
   });
