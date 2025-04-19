@@ -1,3 +1,4 @@
+
 export interface Stock {
   id: string;
   ticker: string;
@@ -50,6 +51,5 @@ export interface FilterState {
   maxPe: number | null;
   maxPbv: number | null;
   minDividendYield: number | null;
-  onlyWatchlist: boolean;
   onlyUndervalued: boolean;
 }

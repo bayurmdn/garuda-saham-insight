@@ -1,4 +1,3 @@
-
 import { FilterState, SortState, Stock } from "../types/stock";
 
 export const formatNumber = (value: number | null): string => {
@@ -87,11 +86,6 @@ export const filterStocks = (stocks: Stock[], filters: FilterState): Stock[] => 
     
     if (filters.minDividendYield !== null && 
         (stock.dividendYield === null || stock.dividendYield < filters.minDividendYield)) {
-      return false;
-    }
-    
-    // Watchlist filter
-    if (filters.onlyWatchlist && !stock.inWatchlist) {
       return false;
     }
     

@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
 import { 
   BarChart3, TrendingUp, TrendingDown, Activity, Building2, 
-  ArrowRight, Star 
+  ArrowRight
 } from "lucide-react";
 
 import Header from '../components/Layout/Header';
@@ -190,7 +189,6 @@ const SectorOverview = () => {
                         <Badge variant="outline" className="bg-success/10">
                           ROE: {formatPercentage(stock.roe || 0)}
                         </Badge>
-                        {stock.inWatchlist && <Star className="h-4 w-4 text-accent fill-accent" />}
                       </div>
                     </li>
                   ))}
