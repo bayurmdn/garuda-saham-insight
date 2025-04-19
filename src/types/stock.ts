@@ -1,4 +1,3 @@
-
 export interface Stock {
   id: string;
   ticker: string;
@@ -18,7 +17,6 @@ export interface Stock {
   debtToEquity: number | null;
   dividendYield: number | null;
   fairValue: number | null;
-  inWatchlist: boolean;
 }
 
 export interface FinancialHistory {

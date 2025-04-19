@@ -1,8 +1,6 @@
-
 import React from 'react';
 import { 
-  ArrowUp, ArrowDown, Star, StarOff, Download, 
-  Eye, TrendingUp, TrendingDown
+  ArrowUp, ArrowDown, Eye, TrendingUp, TrendingDown
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -37,7 +35,6 @@ interface StockTableProps {
   stocks: Stock[];
   sortState: SortState;
   onSort: (field: SortField) => void;
-  onToggleWatchlist: (stockId: string) => void;
   onViewDetails: (stockId: string) => void;
 }
 
@@ -45,7 +42,6 @@ const StockTable: React.FC<StockTableProps> = ({
   stocks,
   sortState,
   onSort,
-  onToggleWatchlist,
   onViewDetails
 }) => {
   const renderHeader = (field: SortField, label: string) => {
@@ -99,7 +95,7 @@ const StockTable: React.FC<StockTableProps> = ({
               <TableHead className="text-center">Fundamental</TableHead>
               <TableHead className="text-center">Valuation</TableHead>
               <TableHead className="text-right">{renderHeader('fairValue', 'Fair Value')}</TableHead>
-              <TableHead className="w-[100px]">Actions</TableHead>
+              <TableHead className="w-[50px]">View</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -196,26 +192,13 @@ const StockTable: React.FC<StockTableProps> = ({
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="flex gap-1">
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={() => onToggleWatchlist(stock.id)}
-                        >
-                          {stock.inWatchlist ? (
-                            <Star className="h-4 w-4 text-accent fill-accent" />
-                          ) : (
-                            <StarOff className="h-4 w-4" />
-                          )}
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="icon"
-                          onClick={() => onViewDetails(stock.id)}
-                        >
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                      </div>
+                      <Button 
+                        variant="ghost" 
+                        size="icon"
+                        onClick={() => onViewDetails(stock.id)}
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
                     </TableCell>
                   </TableRow>
                 );

@@ -23,7 +23,6 @@ import Footer from '../components/Layout/Footer';
 import FilterPanel from '../components/FilterPanel';
 import StockTable from '../components/StockTable';
 import StockChart from '../components/StockChart';
-import Watchlist from '../components/Watchlist';
 
 import { FilterState, SortState, SortField, Stock, StockWithHistory } from '../types/stock';
 import { mockStocks, detailedStock } from '../data/mockStocks';
@@ -56,7 +55,7 @@ const Index = () => {
   const [stocks, setStocks] = useState<Stock[]>(mockStocks);
   const [selectedStock, setSelectedStock] = useState<StockWithHistory | null>(null);
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
-  
+
   // Check URL params for direct stock view
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -100,33 +99,10 @@ const Index = () => {
     }));
   };
 
-  // Watchlist management
-  const toggleWatchlist = (stockId: string) => {
-    const updatedStocks = stocks.map(stock => {
-      if (stock.id === stockId) {
-        const newWatchlistStatus = !stock.inWatchlist;
-        toast({
-          title: newWatchlistStatus ? "Added to watchlist" : "Removed from watchlist",
-          description: `${stock.ticker} - ${stock.name} has been ${newWatchlistStatus ? 'added to' : 'removed from'} your watchlist.`,
-          duration: 3000
-        });
-        return { ...stock, inWatchlist: newWatchlistStatus };
-      }
-      return stock;
-    });
-    setStocks(updatedStocks);
-  };
-
-  const removeFromWatchlist = (stockId: string) => {
-    toggleWatchlist(stockId);
-  };
-
   // Stock details view
   const viewStockDetails = (stockId: string) => {
-    // Find the stock in our data and cast it to StockWithHistory by merging with detailedStock
     const stock = stocks.find(s => s.id === stockId);
     if (stock) {
-      // Create a StockWithHistory by adding history from detailedStock
       const stockWithHistory: StockWithHistory = {
         ...stock,
         history: detailedStock.history
@@ -152,13 +128,6 @@ const Index = () => {
   // Apply filters and sorting
   const filteredStocks = filterStocks(stocks, filters);
   const sortedStocks = sortStocks(filteredStocks, sortState);
-  const watchlistStocks = stocks.filter(stock => stock.inWatchlist);
-
-  // Create watchlist stocks with history for the chart
-  const watchlistStocksWithHistory: StockWithHistory[] = watchlistStocks.map(stock => ({
-    ...stock,
-    history: detailedStock.history
-  }));
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -172,61 +141,21 @@ const Index = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <FilterPanel 
-              filters={filters}
-              onFilterChange={handleFilterChange}
-              onReset={resetFilters}
-              isOpen={filterPanelOpen}
-              onToggle={() => setFilterPanelOpen(!filterPanelOpen)}
-            />
-            
-            <StockTable 
-              stocks={sortedStocks}
-              sortState={sortState}
-              onSort={handleSort}
-              onToggleWatchlist={toggleWatchlist}
-              onViewDetails={viewStockDetails}
-            />
-          </div>
+        <div className="space-y-6">
+          <FilterPanel 
+            filters={filters}
+            onFilterChange={handleFilterChange}
+            onReset={resetFilters}
+            isOpen={filterPanelOpen}
+            onToggle={() => setFilterPanelOpen(!filterPanelOpen)}
+          />
           
-          <div>
-            <Watchlist 
-              stocks={watchlistStocks}
-              onRemoveFromWatchlist={removeFromWatchlist}
-              onViewDetails={viewStockDetails}
-            />
-            
-            {watchlistStocks.length > 0 && (
-              <div className="mt-6">
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <h3 className="text-lg font-medium">Historical Performance</h3>
-                    <Select
-                      value={selectedMetric}
-                      onValueChange={(value) => setSelectedMetric(value as typeof selectedMetric)}
-                    >
-                      <SelectTrigger className="w-[140px]">
-                        <SelectValue placeholder="Select metric" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="eps">EPS</SelectItem>
-                        <SelectItem value="revenue">Revenue</SelectItem>
-                        <SelectItem value="roe">ROE</SelectItem>
-                        <SelectItem value="debtToEquity">Debt/Equity</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <StockChart 
-                    history={selectedStock?.history || watchlistStocksWithHistory[0]?.history || detailedStock.history}
-                    title="Historical Performance"
-                    description="Historical trends of key metrics"
-                  />
-                </div>
-              </div>
-            )}
-          </div>
+          <StockTable 
+            stocks={sortedStocks}
+            sortState={sortState}
+            onSort={handleSort}
+            onViewDetails={viewStockDetails}
+          />
         </div>
       </main>
       
