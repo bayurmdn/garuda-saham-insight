@@ -9,7 +9,7 @@ export const useWatchlist = (userId: string | undefined) => {
   const { data: watchlist, isLoading } = useQuery({
     queryKey: ['watchlist', userId],
     queryFn: async () => {
-      if (!userId) return [];
+      if (!userId) return [] as Stock[];
       
       const { data, error } = await supabase
         .from('watchlists')
@@ -20,7 +20,11 @@ export const useWatchlist = (userId: string | undefined) => {
         .eq('user_id', userId);
       
       if (error) throw error;
-      return data.map(item => item.stocks) as Stock[];
+      
+      // Properly type the return value to match Stock[]
+      if (!data) return [] as Stock[];
+      
+      return data.map(item => item.stocks as Stock) as Stock[];
     },
     enabled: !!userId,
   });
