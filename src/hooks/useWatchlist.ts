@@ -1,6 +1,6 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../integrations/supabase/client';
 import { Stock } from '../types/stock';
 
 export const useWatchlist = (userId: string | undefined) => {
@@ -24,9 +24,12 @@ export const useWatchlist = (userId: string | undefined) => {
       // Properly type the return value to match Stock[]
       if (!data) return [] as Stock[];
       
-      // Each item in data has a nested 'stocks' object that contains a single stock
-      // We need to extract these stock objects from the nested structure
-      const stocks = data.map(item => item.stocks) as Stock[];
+      // Transform the nested structure into the Stock array we need
+      // Each item in data has structure: { stock_id: string, stocks: Stock }
+      const stocks = data.map(item => {
+        // Return the stocks object which contains the full stock data
+        return item.stocks as Stock;
+      });
       
       // Return the stocks array
       return stocks;
