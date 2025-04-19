@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useToast } from "@/components/ui/use-toast";
@@ -7,14 +8,15 @@ import FilterPanel from '../components/FilterPanel';
 import StockTable from '../components/StockTable';
 import StockDetails from '../components/StockDetails';
 import { FilterState, SortState, SortField, Stock, StockWithHistory } from '../types/stock';
-import { mockStocks, detailedStock } from '../data/mockStocks';
 import { filterStocks, sortStocks } from '../utils/stockUtils';
+import { useStockUpdates } from '../hooks/useStockUpdates';
 
 const Index = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
   
+  const { stocks: supabaseStocks, isLoading, error } = useStockUpdates();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterPanelOpen, setFilterPanelOpen] = useState(true);
   const [filters, setFilters] = useState<FilterState>({
@@ -32,9 +34,27 @@ const Index = () => {
     field: 'ticker',
     direction: 'asc'
   });
-  const [stocks, setStocks] = useState<Stock[]>(mockStocks);
+  const [stocks, setStocks] = useState<Stock[]>([]);
   const [selectedStock, setSelectedStock] = useState<StockWithHistory | null>(null);
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
+
+  // Update stocks when Supabase data changes
+  useEffect(() => {
+    if (supabaseStocks) {
+      setStocks(supabaseStocks);
+    }
+  }, [supabaseStocks]);
+
+  // Show error toast if data fetch fails
+  useEffect(() => {
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "Error loading stocks",
+        description: "Failed to load stock data. Please try again later."
+      });
+    }
+  }, [error, toast]);
 
   // Check URL params for direct stock view
   useEffect(() => {
@@ -77,12 +97,14 @@ const Index = () => {
     }));
   };
 
-  const viewStockDetails = (stockId: string) => {
+  const viewStockDetails = async (stockId: string) => {
     const stock = stocks.find(s => s.id === stockId);
     if (stock) {
+      // In a real app, you would fetch the stock history from Supabase here
+      // For now, we'll just set the basic stock info
       const stockWithHistory: StockWithHistory = {
         ...stock,
-        history: detailedStock.history
+        history: [] // You would fetch this from Supabase in a real implementation
       };
       setSelectedStock(stockWithHistory);
       setDetailDialogOpen(true);

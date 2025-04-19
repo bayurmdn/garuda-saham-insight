@@ -5,8 +5,8 @@ import { supabase } from '../lib/supabase';
 import { Stock } from '../types/stock';
 
 export const useStockUpdates = () => {
-  const queryClient = useQueryClient();
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const queryClient = useQueryClient();
 
   // Fetch initial stocks data
   const { data: stocks, isLoading, error } = useQuery({
@@ -25,8 +25,8 @@ export const useStockUpdates = () => {
   // Set up real-time subscription
   useEffect(() => {
     if (!isSubscribed) {
-      const subscription = supabase
-        .channel('stocks_channel')
+      const channel = supabase
+        .channel('stocks_changes')
         .on(
           'postgres_changes',
           {
@@ -55,7 +55,7 @@ export const useStockUpdates = () => {
       setIsSubscribed(true);
 
       return () => {
-        subscription.unsubscribe();
+        supabase.removeChannel(channel);
         setIsSubscribed(false);
       };
     }
